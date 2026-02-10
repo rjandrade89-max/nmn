@@ -297,8 +297,8 @@ const DetailOverlay: React.FC<DetailOverlayProps> = ({ section, onClose }) => {
                   </div>
 
                   <div style={{ backgroundColor: 'white', padding: '1.25rem', borderRadius: '12px', border: '1px solid rgba(163, 177, 138, 0.2)', fontSize: '0.9rem', color: '#555', lineHeight: 1.6 }}>
-                     <p style={{ marginBottom: '0.5rem' }}><strong className="text-blue">De Faro:</strong> A22 direção Lagoa -> N125 até Carvoeiro.</p>
-                     <p><strong className="text-blue">De Lisboa:</strong> A2 até Algarve -> A22 e N125 até Carvoeiro.</p>
+                     <p style={{ marginBottom: '0.5rem' }}><strong className="text-blue">De Faro:</strong> A22 direção Lagoa &rarr; N125 até Carvoeiro.</p>
+                     <p><strong className="text-blue">De Lisboa:</strong> A2 até Algarve &rarr; A22 e N125 até Carvoeiro.</p>
                   </div>
                </div>
             ) : (
