@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { COUPLE_NAMES, IMG_MAIN_COUPLE, IMG_QUINTA, IMG_ENVELOPE_LINER, IMG_FLORAL_BOUQUET } from '../constants';
 import DetailOverlay from './DetailOverlay';
@@ -183,7 +184,7 @@ const DashboardScreen: React.FC<DashboardProps> = ({ isAudioPlaying, onToggleAud
                     style={{ position: 'relative', overflow: 'hidden', zIndex: 10, ...getFloatStyle('2.5s', '7s') }}
                 >
                     <p className="font-script text-center" style={{ fontSize: '1.1rem', color: '#888' }}>Ver o</p>
-                    <p className="font-serif text-center uppercase font-bold" style={{ fontSize: '1.1rem', letterSpacing: '0.1em' }}>Cronograma</p>
+                    <p className="font-serif text-center uppercase font-bold" style={{ fontSize: '1.1rem', letterSpacing: '0.1em' }}>Plano de Festa</p>
                 </div>
                 {/* Floral: Overlapping bottom left corner */}
                 <div style={{ position: 'absolute', bottom: '-15px', left: '-15px', width: '3.5rem', zIndex: 5, pointerEvents: 'none' }}>

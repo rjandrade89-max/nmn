@@ -194,7 +194,7 @@ const DetailOverlay: React.FC<DetailOverlayProps> = ({ section, onClose }) => {
         return (
           <div style={{ marginTop: '1rem' }}>
              <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-                <h3 className="font-serif text-blue" style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>Cronograma</h3>
+                <h3 className="font-serif text-blue" style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>Plano de Festa</h3>
                 <p className="uppercase text-gold" style={{ fontSize: '0.7rem', letterSpacing: '0.1em' }}>{WEDDING_FULL_DATE}</p>
              </div>
              <div style={{ borderLeft: '1px solid rgba(163, 177, 138, 0.3)', marginLeft: '1rem', paddingLeft: '2rem', paddingBottom: '1rem' }}>
