@@ -351,15 +351,16 @@ body {
 }
 .tab-btn.active { background: white; color: var(--c-darkBlue); box-shadow: 0 1px 3px rgba(0,0,0,0.1); font-weight: 600; }
 
-/* Word Search Styles */
+/* Word Search Styles - UPDATED for responsiveness */
 .word-search-grid {
     display: grid;
     grid-template-columns: repeat(8, 1fr);
-    gap: 4px;
+    gap: 2px; /* Reduced gap */
     margin: 1rem auto;
-    max-width: 350px;
+    width: 100%;
+    max-width: 320px; /* Constrain max width for better mobile fit */
     background: white;
-    padding: 10px;
+    padding: 8px;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
@@ -370,7 +371,7 @@ body {
     justify-content: center;
     font-family: var(--font-sans);
     font-weight: 600;
-    font-size: 1.1rem;
+    font-size: clamp(0.9rem, 4vw, 1.1rem); /* Responsive font size */
     cursor: pointer;
     border-radius: 4px;
     transition: background 0.2s;

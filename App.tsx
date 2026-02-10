@@ -19,6 +19,22 @@ function App() {
     }
   }, [viewState]);
 
+  // Audio Control: Pause when tab is not visible
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      const audio = document.getElementById('bg-music') as HTMLAudioElement;
+      if (document.hidden && audio && !audio.paused) {
+        audio.pause();
+        setIsPlaying(false);
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
+
   // Triggered immediately when user clicks envelope
   const handleStartAudio = () => {
     const audio = document.getElementById('bg-music') as HTMLAudioElement;
