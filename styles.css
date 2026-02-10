@@ -262,10 +262,12 @@ body {
 .card:hover { transform: scale(1.02); }
 .card-white { background: white; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
 .card-details { padding: 4px; padding-bottom: 2rem; }
-.card-rsvp { padding: 0.75rem; border-left: 4px solid var(--c-darkBlue); display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; }
+
+/* Remove overflow hidden to prevent clipping of text in small spaces */
+.card-rsvp { padding: 0.75rem; border-left: 4px solid var(--c-darkBlue); display: flex; flex-direction: column; justify-content: center; position: relative; }
 .card-timeline { padding: 4px; padding-bottom: 1.5rem; overflow: visible; }
 .card-std { padding: 0.75rem; text-align: center; }
-.card-gallery { background: #FDFBF7; padding: 0.75rem; border-right: 4px solid var(--c-gold); position: relative; overflow: hidden; }
+.card-gallery { background: #FDFBF7; padding: 0.75rem; border-right: 4px solid var(--c-gold); position: relative; }
 .card-faq {
     aspect-ratio: 1/1; border-radius: 50%; background: var(--c-darkBlue);
     color: white; display: flex; flex-direction: column; align-items: center; justify-content: center;

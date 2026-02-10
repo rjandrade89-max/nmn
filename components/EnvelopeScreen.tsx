@@ -35,7 +35,9 @@ const EnvelopeScreen: React.FC<EnvelopeScreenProps> = ({ onOpen, onStartAudio })
       
       {/* Title Header above Envelope */}
       <div className={`envelope-header ${isOpen ? 'is-open' : ''}`}>
-        <h1 className="font-serif" style={{ fontSize: '1.8rem', marginBottom: '0.5rem' }}>{COUPLE_NAMES}</h1>
+        <h1 className="font-serif" style={{ fontSize: '1.8rem', marginBottom: '0.25rem' }}>{COUPLE_NAMES}</h1>
+        {/* Added Slogan Here */}
+        <p className="font-script text-gold" style={{ fontSize: '1.3rem', marginBottom: '0.5rem' }}>O início do nosso 'Para Sempre'</p>
         <p className="font-sans text-blue uppercase font-bold" style={{ fontSize: '0.75rem', letterSpacing: '0.2em' }}>{WEDDING_DATE}</p>
       </div>
 
@@ -55,7 +57,6 @@ const EnvelopeScreen: React.FC<EnvelopeScreenProps> = ({ onOpen, onStartAudio })
               <p className="font-script text-gold" style={{ fontSize: '1.8rem', marginBottom: '4px' }}>Convite</p>
               <p className="font-serif text-center" style={{ fontSize: '0.7rem', borderTop: '1px solid rgba(197, 160, 89, 0.3)', borderBottom: '1px solid rgba(197, 160, 89, 0.3)', padding: '4px 16px', color: '#666' }}>{WEDDING_DATE}</p>
               
-              {/* Slogan added here */}
               <p className="font-script text-darkBlue" style={{ fontSize: '1rem', marginTop: '12px', textAlign: 'center' }}>
                 O início do nosso 'Para Sempre'
               </p>

@@ -110,17 +110,25 @@ const DashboardScreen: React.FC<DashboardProps> = ({ isAudioPlaying, onToggleAud
              </div>
           </div>
 
-          {/* 2. RSVP Card */}
+          {/* 2. RSVP Card - UPDATED for formatting */}
           <div className="scroll-reveal" style={{ transitionDelay: '0.3s' }}>
               <div style={{ position: 'relative' }}>
                   <div 
                     onClick={() => setActiveSection('rsvp')}
                     className="card card-white card-rsvp animate-float"
-                    style={{ overflow: 'visible', zIndex: 10, ...getFloatStyle('2s', '6s') }}
+                    style={{ 
+                        zIndex: 10, 
+                        minHeight: '8rem', /* Add min-height to prevent squashing */
+                        padding: '1.25rem 0.75rem', /* Increase padding */
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        ...getFloatStyle('2s', '6s') 
+                    }}
                   >
-                    <p className="font-script text-darkBlue" style={{ fontSize: '1.25rem', textAlign: 'left', marginLeft: '0.25rem' }}>Confirmar</p>
-                    <p className="font-serif font-bold text-center text-darkBlue" style={{ fontSize: '1.5rem', borderBottom: '1px solid rgba(75, 101, 132, 0.3)', margin: '0.25rem 0' }}>Presença</p>
-                    <p className="font-script text-darkBlue" style={{ fontSize: '1.1rem', textAlign: 'right', marginRight: '0.25rem' }}>(Por favor)</p>
+                    <p className="font-script text-darkBlue" style={{ fontSize: '1.2rem', textAlign: 'left', marginLeft: '0.25rem', marginBottom: '0.25rem' }}>Confirmar</p>
+                    <p className="font-serif font-bold text-center text-darkBlue" style={{ fontSize: '1.5rem', borderBottom: '1px solid rgba(75, 101, 132, 0.4)', margin: '0.25rem 0', paddingBottom: '2px' }}>Presença</p>
+                    <p className="font-script text-darkBlue" style={{ fontSize: '1.1rem', textAlign: 'right', marginRight: '0.25rem', marginTop: '0.25rem' }}>(Por favor)</p>
                   </div>
               </div>
           </div>
@@ -175,16 +183,26 @@ const DashboardScreen: React.FC<DashboardProps> = ({ isAudioPlaying, onToggleAud
              </div>
           </div>
 
-          {/* 2. Text Card -> TIMELINE */}
+          {/* 2. Text Card -> TIMELINE (Plano de Festa) - UPDATED */}
           <div className="scroll-reveal" style={{ transitionDelay: '0.4s' }}>
              <div style={{ position: 'relative' }}>
                 <div 
                     onClick={() => setActiveSection('timeline')}
                     className="card card-gallery animate-float"
-                    style={{ position: 'relative', overflow: 'hidden', zIndex: 10, ...getFloatStyle('2.5s', '7s') }}
+                    style={{ 
+                        position: 'relative', 
+                        overflow: 'visible', /* Removed hidden to prevent clipping */
+                        zIndex: 10, 
+                        minHeight: '6rem', 
+                        padding: '1.5rem 1rem', /* Increase padding */
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        ...getFloatStyle('2.5s', '7s') 
+                    }}
                 >
-                    <p className="font-script text-center" style={{ fontSize: '1.1rem', color: '#888' }}>Ver o</p>
-                    <p className="font-serif text-center uppercase font-bold" style={{ fontSize: '1.1rem', letterSpacing: '0.1em' }}>Plano de Festa</p>
+                    <p className="font-script text-center" style={{ fontSize: '1.1rem', color: '#666', marginBottom: '0.25rem' }}>Ver o</p>
+                    <p className="font-serif text-center uppercase font-bold" style={{ fontSize: '1rem', letterSpacing: '0.1em', color: 'var(--c-text)' }}>Plano de Festa</p>
                 </div>
                 {/* Floral: Overlapping bottom left corner */}
                 <div style={{ position: 'absolute', bottom: '-15px', left: '-15px', width: '3.5rem', zIndex: 5, pointerEvents: 'none' }}>
@@ -212,7 +230,7 @@ const DashboardScreen: React.FC<DashboardProps> = ({ isAudioPlaying, onToggleAud
                     }}
                 >
                     <p className="font-script text-center text-gold" style={{ fontSize: '1.3rem' }}>Jogar</p>
-                    <p className="font-serif text-center uppercase font-bold text-darkBlue" style={{ fontSize: '1rem', letterSpacing: '0.1em', marginTop: '0.25rem' }}>Sopa de Letras</p>
+                    <p className="font-serif text-center uppercase font-bold text-darkBlue" style={{ fontSize: '1rem', letterSpacing: '0.1em', marginTop: '0.25rem' }}>Quiz & Jogos</p>
                 </div>
              </div>
           </div>
