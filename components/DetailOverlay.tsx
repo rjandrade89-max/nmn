@@ -157,14 +157,17 @@ const MazeGame = () => {
       const endX = (gridSize - 1) * cellSize;
       const endY = (gridSize - 1) * cellSize;
       
-      // Destination glow
+      // Destination glow - Larger
       ctx.beginPath();
-      ctx.arc(endX + cellSize/2, endY + cellSize/2, cellSize/2.2, 0, Math.PI * 2);
+      ctx.arc(endX + cellSize/2, endY + cellSize/2, cellSize * 0.8, 0, Math.PI * 2);
       ctx.fillStyle = 'rgba(255, 182, 193, 0.4)'; // Pink glow
       ctx.fill();
       
       if (brideImg.complete) {
-        ctx.drawImage(brideImg, endX + 2, endY + 2, cellSize - 4, cellSize - 4);
+        // Larger Bride Icon
+        const bSize = cellSize * 1.6;
+        const bOffset = (bSize - cellSize) / 2;
+        ctx.drawImage(brideImg, endX - bOffset, endY - bOffset, bSize, bSize);
       } else {
         ctx.fillStyle = '#C5A059';
         ctx.beginPath();
@@ -175,7 +178,8 @@ const MazeGame = () => {
       // 5. Draw Player (Groom)
       const px = playerPos.x * cellSize;
       const py = playerPos.y * cellSize;
-      const pRadius = cellSize * 0.4;
+      // Larger Groom Radius
+      const pRadius = cellSize * 0.7; // was 0.4
 
       // Shadow
       ctx.beginPath();
@@ -221,9 +225,15 @@ const MazeGame = () => {
     if (!canvas) return;
 
     const rect = canvas.getBoundingClientRect();
-    const x = clientX - rect.left;
-    const y = clientY - rect.top;
-    const w = canvas.width;
+    const w = canvas.width; // 320 internal
+    
+    // Scale Logic for responsive canvas
+    const scaleX = w / rect.width;
+    const scaleY = canvas.height / rect.height;
+
+    const x = (clientX - rect.left) * scaleX;
+    const y = (clientY - rect.top) * scaleY;
+
     const cellSize = w / gridSize;
 
     // Proposed new grid coordinates
@@ -237,6 +247,7 @@ const MazeGame = () => {
     const cellCol = Math.floor(gridX);
     const cellRow = Math.floor(gridY);
 
+    // Basic wall check
     if (mazeGrid[cellRow][cellCol] === 1) {
       return; // Hit wall
     }
@@ -289,7 +300,7 @@ const MazeGame = () => {
         width={320}
         height={320}
         className="maze-canvas"
-        style={{ borderRadius: '12px', cursor: 'pointer', boxShadow: '0 4px 12px rgba(75, 101, 132, 0.15)', background: '#FFF9E6' }}
+        style={{ borderRadius: '12px', cursor: 'pointer', boxShadow: '0 4px 12px rgba(75, 101, 132, 0.15)', background: '#FFF9E6', maxWidth: '100%', height: 'auto' }}
         onTouchMove={onTouchMove}
         onMouseMove={onMouseMove}
         onMouseDown={onClick}
