@@ -217,7 +217,7 @@ const MazeGame = () => {
     return () => cancelAnimationFrame(animationFrameId);
   }, [playerPos, winner]);
 
-  // Handle Input (Mouse/Touch)
+  // Handle Input (Mouse/Touch) with Sliding Logic
   const handleMove = (clientX: number, clientY: number) => {
     if (winner) return;
 
@@ -236,32 +236,57 @@ const MazeGame = () => {
 
     const cellSize = w / gridSize;
 
-    // Proposed new grid coordinates
-    const gridX = x / cellSize;
-    const gridY = y / cellSize;
+    // Target grid coordinates based on finger position
+    const targetGridX = x / cellSize;
+    const targetGridY = y / cellSize;
 
     // Boundary Checks
-    if (gridX < 0 || gridX >= gridSize || gridY < 0 || gridY >= gridSize) return;
+    if (targetGridX < 0 || targetGridX >= gridSize || targetGridY < 0 || targetGridY >= gridSize) return;
 
-    // Wall Collision Check
-    const cellCol = Math.floor(gridX);
-    const cellRow = Math.floor(gridY);
+    // Helper to check if a specific grid coordinate is a wall
+    const isWall = (gx: number, gy: number) => {
+        const r = Math.floor(gy);
+        const c = Math.floor(gx);
+        // Safety check for grid bounds inside helper
+        if (r < 0 || r >= gridSize || c < 0 || c >= gridSize) return true;
+        return mazeGrid[r][c] === 1;
+    };
 
-    // Basic wall check
-    if (mazeGrid[cellRow][cellCol] === 1) {
-      return; // Hit wall
+    let newX = playerPos.x;
+    let newY = playerPos.y;
+
+    // SLIDING LOGIC:
+    // 1. Try moving directly to the target point
+    if (!isWall(targetGridX, targetGridY)) {
+        newX = targetGridX;
+        newY = targetGridY;
+    } 
+    // 2. If blocked, try sliding HORIZONTALLY (keep current Y, update X)
+    // This allows moving left/right even if you are pushing up/down against a wall
+    else if (!isWall(targetGridX, playerPos.y)) {
+        newX = targetGridX;
+        // Keep old Y
     }
+    // 3. If blocked, try sliding VERTICALLY (keep current X, update Y)
+    // This allows moving up/down even if you are pushing left/right against a wall
+    else if (!isWall(playerPos.x, targetGridY)) {
+        // Keep old X
+        newY = targetGridY;
+    }
+    // 4. If all blocked (corner), stay put.
 
-    // Update position
-    setPlayerPos({ x: gridX, y: gridY });
+    // Update state with the calculated "sliding" position
+    setPlayerPos({ x: newX, y: newY });
 
-    // Check Win
-    if (cellRow === 12 && cellCol === 12) {
+    // Check Win (Cell 12,12)
+    if (Math.floor(newY) === 12 && Math.floor(newX) === 12) {
       setWinner(true);
     }
   };
 
   const onTouchMove = (e: React.TouchEvent) => {
+    // Prevent default browser scrolling when dragging on the maze
+    if(e.cancelable) e.preventDefault();
     handleMove(e.touches[0].clientX, e.touches[0].clientY);
   };
   

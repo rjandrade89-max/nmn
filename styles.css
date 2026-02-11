@@ -17,21 +17,25 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 html {
-    /* Removed fixed width to allow natural flow */
-    scroll-behavior: smooth;
-    width: 100%;
-    overflow-x: hidden; /* Prevent horizontal scroll */
+    /* CORRECTION 1: Removed scroll-behavior: smooth for native feel */
+    /* CORRECTION 2: Removed fixed width/height restrictions on HTML */
+    -webkit-text-size-adjust: 100%;
 }
 
 body {
     width: 100%;
+    /* Ensure body grows with content */
     min-height: 100vh;
     font-family: var(--font-sans);
     color: var(--c-text);
-    /* background-color: var(--c-bg); Remove solid background to let blur layer show */
-    overflow-x: hidden; /* Prevent horizontal scroll */
+    
+    /* CORRECTION 2: Only hide horizontal overflow on body to prevent side-scroll without locking vertical */
+    overflow-x: hidden; 
+    overflow-y: auto; /* Explicitly allow vertical scroll */
+    
     -webkit-font-smoothing: antialiased;
-    -webkit-overflow-scrolling: touch; /* Fluid scroll on iOS */
+    -webkit-overflow-scrolling: touch; /* Restore momentum scrolling on iOS */
+    position: relative;
 }
 
 /* --- TYPOGRAPHY --- */
@@ -70,7 +74,7 @@ body {
 .animate-pulse-slow { animation: pulse-slow 3s infinite; }
 .animate-bounce { animation: bounce 1s infinite; }
 
-/* Scroll Reveal Animation - Fixed */
+/* Scroll Reveal Animation */
 .scroll-reveal {
     opacity: 0;
     transform: translateY(30px);
@@ -88,9 +92,10 @@ body {
     min-height: 100vh;
     display: flex;
     justify-content: center;
-    overflow-x: hidden; /* Extra safety */
+    /* Removed overflow-x hidden here to prevent conflict with body scroll */
 }
 
+/* CORRECTION 3: Ensure background layers never block clicks */
 .bg-blur-layer {
     position: fixed;
     inset: 0;
@@ -99,13 +104,14 @@ body {
     opacity: 0.35; 
     filter: none;
     z-index: 0;
+    pointer-events: none; /* Critical fix */
 }
 
 .bg-overlay {
     position: fixed;
     inset: 0;
     background-color: rgba(147, 169, 209, 0.05);
-    pointer-events: none;
+    pointer-events: none; /* Critical fix */
     z-index: 0;
 }
 
@@ -114,8 +120,7 @@ body {
     z-index: 10;
     width: 100%;
     max-width: 450px;
-    min-height: 100vh;
-    /* Removed background and shadow for responsiveness/no white rectangle */
+    /* Allow height to grow automatically */
     display: flex;
     flex-direction: column;
 }
@@ -125,7 +130,7 @@ body {
     inset: 0;
     background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
     opacity: 0.3;
-    pointer-events: none;
+    pointer-events: none; /* Critical fix */
     z-index: 0;
 }
 
@@ -136,9 +141,10 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #F5F8FA; /* Keep intro solid */
+    background-color: #F5F8FA; 
     z-index: 100;
     transition: opacity 1s;
+    /* Will be removed from DOM by React, but safety style helps */
 }
 .intro-text {
     font-family: var(--font-serif);
@@ -161,7 +167,7 @@ body {
 }
 .envelope-screen.is-zooming {
     opacity: 0;
-    pointer-events: none;
+    pointer-events: none; /* Ensures it doesn't block scroll during transition */
 }
 
 .envelope-header {
@@ -183,7 +189,7 @@ body {
     perspective: 1000px;
     cursor: pointer;
     z-index: 20;
-    max-width: 90vw; /* Ensure envelope fits small screens */
+    max-width: 90vw;
 }
 
 .envelope-body {
@@ -241,9 +247,10 @@ body {
 /* --- DASHBOARD --- */
 .dashboard-screen {
     width: 100%;
-    min-height: 100vh;
+    /* Allow min-height to grow naturally */
+    min-height: 100vh; 
     padding-bottom: 5rem;
-    overflow: visible;
+    overflow: visible; /* Ensure content is reachable */
 }
 
 .header-envelope-static {
@@ -269,7 +276,6 @@ body {
 .card-white { background: white; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
 .card-details { padding: 4px; padding-bottom: 2rem; }
 
-/* Remove overflow hidden to prevent clipping of text in small spaces */
 .card-rsvp { padding: 0.75rem; border-left: 4px solid var(--c-darkBlue); display: flex; flex-direction: column; justify-content: center; position: relative; }
 .card-timeline { padding: 4px; padding-bottom: 1.5rem; overflow: visible; }
 .card-std { padding: 0.75rem; text-align: center; }
@@ -323,8 +329,9 @@ body {
     transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
     position: relative;
     z-index: 60;
-    -webkit-overflow-scrolling: touch;
+    -webkit-overflow-scrolling: touch; /* IMPORTANT for iOS modal scroll */
     overscroll-behavior: contain;
+    touch-action: pan-y; /* Allow vertical scroll explicitly */
 }
 .overlay-backdrop.visible .overlay-content { transform: translateY(0); }
 @media (min-width: 640px) {
@@ -359,14 +366,14 @@ body {
 }
 .tab-btn.active { background: white; color: var(--c-darkBlue); box-shadow: 0 1px 3px rgba(0,0,0,0.1); font-weight: 600; }
 
-/* Word Search Styles - UPDATED for responsiveness */
+/* Word Search Styles */
 .word-search-grid {
     display: grid;
     grid-template-columns: repeat(8, 1fr);
-    gap: 2px; /* Reduced gap */
+    gap: 2px;
     margin: 1rem auto;
     width: 100%;
-    max-width: 90vw; /* Use relative width for better mobile fit */
+    max-width: 90vw;
     background: white;
     padding: 8px;
     border-radius: 8px;
@@ -379,7 +386,7 @@ body {
     justify-content: center;
     font-family: var(--font-sans);
     font-weight: 600;
-    font-size: clamp(0.9rem, 4vw, 1.1rem); /* Responsive font size */
+    font-size: clamp(0.9rem, 4vw, 1.1rem);
     cursor: pointer;
     border-radius: 4px;
     transition: background 0.2s;
@@ -431,7 +438,7 @@ body {
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     background: #F5F8FA;
-    touch-action: none; /* Prevents scrolling while playing */
-    max-width: 100%; /* Ensure it does not overflow horizontally */
+    touch-action: none; /* Only disable browser scroll on the maze itself */
+    max-width: 100%;
     height: auto;
 }
