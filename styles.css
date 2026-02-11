@@ -418,3 +418,13 @@ body {
     color: white;
     border-color: #EF4444;
 }
+
+/* Maze Canvas */
+.maze-canvas {
+    border: 2px solid #93A9D1;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    background: #F5F8FA;
+    touch-action: none; /* Prevents scrolling while playing */
+    max-width: 100%;
+}

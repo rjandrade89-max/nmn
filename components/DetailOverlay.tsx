@@ -1,11 +1,305 @@
 
-import React, { useEffect, useState } from 'react';
-import { TIMELINE_DATA, FAQ_DATA, WEDDING_FULL_DATE, MAP_TIVOLI_SRC, MAP_CANHOTO_SRC, IMG_QUINTA, IMG_POOL, GALLERY_IMAGES, RSVP_PHONE, RSVP_PHONE_CLEAN, QUIZ_DATA } from '../constants';
+import React, { useEffect, useState, useRef } from 'react';
+import { TIMELINE_DATA, FAQ_DATA, WEDDING_FULL_DATE, MAP_TIVOLI_SRC, MAP_CANHOTO_SRC, IMG_QUINTA, IMG_POOL, GALLERY_IMAGES, RSVP_PHONE, RSVP_PHONE_CLEAN, QUIZ_DATA, IMG_GROOM_HEAD, IMG_BRIDE_HEAD } from '../constants';
 
 interface DetailOverlayProps {
   section: string;
   onClose: () => void;
 }
+
+// --- MAZE GAME COMPONENT ---
+const MazeGame = () => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [winner, setWinner] = useState(false);
+  
+  // HARDER GRID (13x13)
+  // 0 = Path (Sand), 1 = Wall (Line)
+  const mazeGrid = [
+    [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], // 0
+    [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], // 1
+    [1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1], // 2
+    [1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1], // 3
+    [1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1], // 4
+    [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1], // 5
+    [1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1], // 6
+    [1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1], // 7
+    [1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1], // 8
+    [1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1], // 9
+    [1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1], // 10
+    [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0], // 11
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0]  // 12
+  ];
+
+  const gridSize = 13;
+  const [playerPos, setPlayerPos] = useState({ x: 0.5, y: 0.5 }); 
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    // Load images
+    const groomImg = new Image();
+    const brideImg = new Image();
+    groomImg.src = IMG_GROOM_HEAD;
+    brideImg.src = IMG_BRIDE_HEAD;
+
+    let animationFrameId: number;
+    let waveOffset = 0;
+
+    const drawStarfish = (cx: number, cy: number, spikes: number, outerRadius: number, innerRadius: number, color: string) => {
+        let rot = Math.PI / 2 * 3;
+        let x = cx;
+        let y = cy;
+        const step = Math.PI / spikes;
+
+        ctx.beginPath();
+        ctx.moveTo(cx, cy - outerRadius);
+        for (let i = 0; i < spikes; i++) {
+            x = cx + Math.cos(rot) * outerRadius;
+            y = cy + Math.sin(rot) * outerRadius;
+            ctx.lineTo(x, y);
+            rot += step;
+
+            x = cx + Math.cos(rot) * innerRadius;
+            y = cy + Math.sin(rot) * innerRadius;
+            ctx.lineTo(x, y);
+            rot += step;
+        }
+        ctx.lineTo(cx, cy - outerRadius);
+        ctx.closePath();
+        ctx.fillStyle = color;
+        ctx.fill();
+        // Simple dot eyes
+        ctx.fillStyle = 'white';
+        ctx.beginPath(); ctx.arc(cx - 2, cy - 2, 1.5, 0, Math.PI*2); ctx.fill();
+        ctx.beginPath(); ctx.arc(cx + 2, cy - 2, 1.5, 0, Math.PI*2); ctx.fill();
+        ctx.fillStyle = 'black';
+        ctx.beginPath(); ctx.arc(cx - 2, cy - 2, 0.5, 0, Math.PI*2); ctx.fill();
+        ctx.beginPath(); ctx.arc(cx + 2, cy - 2, 0.5, 0, Math.PI*2); ctx.fill();
+    }
+
+    const drawWaves = (w: number, h: number, offset: number) => {
+        ctx.fillStyle = '#93A9D1'; // Light Blue Wave
+        // Top Wave
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(0, 15);
+        for (let i = 0; i <= w; i += 20) {
+            ctx.quadraticCurveTo(i + 10, 15 + Math.sin((i + offset) * 0.05) * 5, i + 20, 15);
+        }
+        ctx.lineTo(w, 0);
+        ctx.fill();
+
+        // Bottom Wave
+        ctx.fillStyle = '#4B6584'; // Darker Blue Wave
+        ctx.beginPath();
+        ctx.moveTo(0, h);
+        ctx.lineTo(0, h - 15);
+        for (let i = 0; i <= w; i += 20) {
+            ctx.quadraticCurveTo(i + 10, h - 15 + Math.sin((i - offset) * 0.05) * 5, i + 20, h - 15);
+        }
+        ctx.lineTo(w, h);
+        ctx.fill();
+    }
+
+    const render = () => {
+      waveOffset += 1;
+      // Clear canvas
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      const w = canvas.width;
+      const h = canvas.height;
+      const cellSize = w / gridSize;
+
+      // 1. Draw Background (Light Sand)
+      ctx.fillStyle = '#FFF9E6'; 
+      ctx.fillRect(0, 0, w, h);
+
+      // 2. Draw Walls as LINES
+      ctx.strokeStyle = '#C19A6B'; // Dark Sand/Wood color for elegant lines
+      ctx.lineWidth = 5; // Slightly thinner for dense grid
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      
+      ctx.beginPath();
+      for (let r = 0; r < gridSize; r++) {
+        for (let c = 0; c < gridSize; c++) {
+          if (mazeGrid[r][c] === 1) {
+             const cx = c * cellSize + cellSize / 2;
+             const cy = r * cellSize + cellSize / 2;
+             
+             // Check right neighbor
+             if (c + 1 < gridSize && mazeGrid[r][c + 1] === 1) {
+               ctx.moveTo(cx, cy);
+               ctx.lineTo(cx + cellSize, cy);
+             }
+             // Check bottom neighbor
+             if (r + 1 < gridSize && mazeGrid[r + 1][c] === 1) {
+               ctx.moveTo(cx, cy);
+               ctx.lineTo(cx, cy + cellSize);
+             }
+          }
+        }
+      }
+      ctx.stroke();
+      
+      // Draw Red Starfish decorations (static positions adapted for new grid)
+      drawStarfish(cellSize * 2.5, cellSize * 4.5, 5, cellSize/2.5, cellSize/8, '#EF5350');
+      drawStarfish(cellSize * 10.5, cellSize * 10.5, 5, cellSize/2.5, cellSize/8, '#EF5350');
+      drawStarfish(cellSize * 1.5, cellSize * 10.5, 5, cellSize/3, cellSize/10, '#EF5350');
+
+      // 3. Draw Waves
+      drawWaves(w, h, waveOffset);
+
+      // 4. Draw Finish Zone (Bride)
+      const endX = (gridSize - 1) * cellSize;
+      const endY = (gridSize - 1) * cellSize;
+      
+      // Destination glow
+      ctx.beginPath();
+      ctx.arc(endX + cellSize/2, endY + cellSize/2, cellSize/2.2, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255, 182, 193, 0.4)'; // Pink glow
+      ctx.fill();
+      
+      if (brideImg.complete) {
+        ctx.drawImage(brideImg, endX + 2, endY + 2, cellSize - 4, cellSize - 4);
+      } else {
+        ctx.fillStyle = '#C5A059';
+        ctx.beginPath();
+        ctx.arc(endX + cellSize/2, endY + cellSize/2, cellSize/3, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // 5. Draw Player (Groom)
+      const px = playerPos.x * cellSize;
+      const py = playerPos.y * cellSize;
+      const pRadius = cellSize * 0.4;
+
+      // Shadow
+      ctx.beginPath();
+      ctx.arc(px + 2, py + 2, pRadius, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(0,0,0,0.1)';
+      ctx.fill();
+
+      if (groomImg.complete) {
+         ctx.save();
+         ctx.beginPath();
+         ctx.arc(px, py, pRadius, 0, Math.PI * 2);
+         ctx.closePath();
+         ctx.clip();
+         ctx.drawImage(groomImg, px - pRadius, py - pRadius, pRadius * 2, pRadius * 2);
+         ctx.restore();
+         
+         // Border
+         ctx.beginPath();
+         ctx.arc(px, py, pRadius, 0, Math.PI * 2);
+         ctx.strokeStyle = '#4B6584'; // Dark Blue
+         ctx.lineWidth = 2;
+         ctx.stroke();
+      } else {
+         ctx.fillStyle = '#4B6584';
+         ctx.beginPath();
+         ctx.arc(px, py, pRadius, 0, Math.PI * 2);
+         ctx.fill();
+      }
+      
+      animationFrameId = requestAnimationFrame(render);
+    };
+
+    render();
+
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [playerPos, winner]);
+
+  // Handle Input (Mouse/Touch)
+  const handleMove = (clientX: number, clientY: number) => {
+    if (winner) return;
+
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const x = clientX - rect.left;
+    const y = clientY - rect.top;
+    const w = canvas.width;
+    const cellSize = w / gridSize;
+
+    // Proposed new grid coordinates
+    const gridX = x / cellSize;
+    const gridY = y / cellSize;
+
+    // Boundary Checks
+    if (gridX < 0 || gridX >= gridSize || gridY < 0 || gridY >= gridSize) return;
+
+    // Wall Collision Check
+    const cellCol = Math.floor(gridX);
+    const cellRow = Math.floor(gridY);
+
+    if (mazeGrid[cellRow][cellCol] === 1) {
+      return; // Hit wall
+    }
+
+    // Update position
+    setPlayerPos({ x: gridX, y: gridY });
+
+    // Check Win
+    if (cellRow === 12 && cellCol === 12) {
+      setWinner(true);
+    }
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    handleMove(e.touches[0].clientX, e.touches[0].clientY);
+  };
+  
+  const onMouseMove = (e: React.MouseEvent) => {
+    if (e.buttons === 1) { // Dragging
+      handleMove(e.clientX, e.clientY);
+    }
+  };
+  
+  const onClick = (e: React.MouseEvent) => {
+      handleMove(e.clientX, e.clientY);
+  }
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      {winner ? (
+         <div className="animate-bounce" style={{ textAlign: 'center', marginBottom: '1rem' }}>
+            <h3 className="font-serif text-blue" style={{ fontSize: '1.5rem' }}>Parabéns!</h3>
+            <p className="text-gold">O amor encontrou o caminho!</p>
+            <div style={{ fontSize: '3rem', marginTop: '0.5rem' }}>❤️</div>
+            <button 
+              onClick={() => { setWinner(false); setPlayerPos({x:0.5, y:0.5}); }}
+              style={{ marginTop: '1rem', padding: '0.5rem 1rem', background: '#A3B18A', border: 'none', color: 'white', borderRadius: '20px' }}
+            >
+              Jogar de novo
+            </button>
+         </div>
+      ) : (
+         <p style={{ marginBottom: '0.5rem', color: '#666', fontSize: '0.9rem', textAlign: 'center' }}>
+           Ajuda o <strong>Fábio</strong> a chegar à <strong>Carla</strong>!
+         </p>
+      )}
+
+      <canvas
+        ref={canvasRef}
+        width={320}
+        height={320}
+        className="maze-canvas"
+        style={{ borderRadius: '12px', cursor: 'pointer', boxShadow: '0 4px 12px rgba(75, 101, 132, 0.15)', background: '#FFF9E6' }}
+        onTouchMove={onTouchMove}
+        onMouseMove={onMouseMove}
+        onMouseDown={onClick}
+        onClick={onClick}
+      />
+      <p style={{ fontSize: '0.7rem', color: '#999', marginTop: '0.5rem' }}>Arrasta o noivo pelo caminho de areia.</p>
+    </div>
+  );
+};
+
 
 // Simple Word Search Component
 const WordSearchGame = () => {
@@ -176,7 +470,7 @@ const QuizGame = () => {
 const DetailOverlay: React.FC<DetailOverlayProps> = ({ section, onClose }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [activeTab, setActiveTab] = useState<'tivoli' | 'canhoto'>('tivoli');
-  const [gameTab, setGameTab] = useState<'words' | 'quiz'>('words');
+  const [gameTab, setGameTab] = useState<'words' | 'quiz' | 'maze'>('words');
 
   useEffect(() => {
     // Small delay to trigger animation
@@ -382,9 +676,12 @@ const DetailOverlay: React.FC<DetailOverlayProps> = ({ section, onClose }) => {
                 <div style={{ display: 'flex', padding: '4px', backgroundColor: '#f3f4f6', borderRadius: '8px', marginBottom: '1.5rem', boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.05)' }}>
                     <button onClick={() => setGameTab('words')} className={`tab-btn ${gameTab === 'words' ? 'active' : ''}`}>Sopa de Letras</button>
                     <button onClick={() => setGameTab('quiz')} className={`tab-btn ${gameTab === 'quiz' ? 'active' : ''}`}>Quiz</button>
+                    <button onClick={() => setGameTab('maze')} className={`tab-btn ${gameTab === 'maze' ? 'active' : ''}`}>Labirinto</button>
                 </div>
 
-                {gameTab === 'words' ? <WordSearchGame /> : <QuizGame />}
+                {gameTab === 'words' && <WordSearchGame />}
+                {gameTab === 'quiz' && <QuizGame />}
+                {gameTab === 'maze' && <MazeGame />}
              </div>
          );
 

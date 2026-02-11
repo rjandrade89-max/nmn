@@ -26,6 +26,10 @@ export const IMG_ENVELOPE_LINER = "https://lh3.googleusercontent.com/d/1JXSfzNiZ
 export const IMG_SEAL_EXT = "https://lh3.googleusercontent.com/d/1ejqhVy20VZ8EXv-eSMXfPamtelfkVBpp";
 export const IMG_SEAL_INT = "https://lh3.googleusercontent.com/d/14Je8a9w8mxMigbig0Ngss1BLOBG0h-4P";
 
+// Maze Game Heads
+export const IMG_GROOM_HEAD = "https://lh3.googleusercontent.com/d/1JCV1_EXdjoS2Ohp8roHjq7r7U1rsOn4B";
+export const IMG_BRIDE_HEAD = "https://lh3.googleusercontent.com/d/1KKgGLEC1FG8zd0fyTAdPTJeeBaPH7_eG";
+
 // Floral Decorations
 export const IMG_FLORAL_CORNER_TL = "https://drive.google.com/thumbnail?id=1WVOJithpJNrHHzdcjbyaxkw7sI1Z0EIS&sz=w1000";
 export const IMG_FLORAL_CORNER_BR = "https://drive.google.com/thumbnail?id=11riu0M7xfWAuKdk56aB43kpK8pWXg5gD&sz=w1000";
