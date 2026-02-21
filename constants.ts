@@ -66,37 +66,38 @@ export const TIMELINE_DATA: TimelineItem[] = [
   {
     time: "12:30",
     title: "Chegada",
-    description: "Receção dos convidados no Tivoli Carvoeiro. Aproveitem a vista deslumbrante sobre a falésia.",
+    description: "Receção dos convidados no Tivoli Carvoeiro.",
   },
   {
     time: "13:30",
     title: "Cerimónia",
-    description: "A nossa cerimónia de união, celebrando o amor com o mar como pano de fundo.",
+    description: "A nossa cerimónia de união.",
   },
   {
-    time: "15:00",
-    title: "Copos de Água",
-    description: "Deslocação para a Quinta do Canhoto, em Albufeira, para o cocktail e celebração.",
+    time: "15:30",
+    title: "Deslocação para a Quinta",
+    description: "Saída do Tivoli Carvoeiro em direção à Quinta do Canhoto.",
   },
   {
-    time: "17:00",
-    title: "Jantar & Festa",
-    description: "Jantar na adega, seguido de festa até de madrugada.",
+    time: "16:00",
+    title: "Chegada dos Convidados a Quinta",
+    description: "Receção na Quinta do Canhoto",
+  },
+  {
+    time: "18:30",
+    title: "Jantar e Festa",
+    description: "Comida e muita Dança",
   }
 ];
 
 export const FAQ_DATA: FaqItem[] = [
   {
     question: "O que não posso vestir?",
-    answer: "Pedimos gentilmente que evitem as cores: Azul Claro, Branco e Bege. Estas cores estão reservadas para a corte nupcial e noivos.",
-  },
-  {
-    question: "Há transporte entre locais?",
-    answer: "Sim, providenciaremos transporte entre o Tivoli Carvoeiro e a Quinta do Canhoto.",
+    answer: "Pedimos gentilmente que evitem as cores: Tons de Azul, Branco e Bege. Estas cores estão reservadas para a corte nupcial e noivos.",
   },
   {
     question: "Lista de Presentes",
-    answer: "A vossa presença é o maior presente. Se desejarem contribuir, teremos uma caixa no dia ou podem consultar os dados bancários na secção RSVP." }
+    answer: "A vossa presença é o maior presente , se desejarem contribuir, no dia podem entregar aos noivos ou consultar os dados bancários com os mesmos." }
 ];
 
 export const QUIZ_DATA = {

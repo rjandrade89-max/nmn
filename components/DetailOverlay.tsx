@@ -567,9 +567,8 @@ const DetailOverlay: React.FC<DetailOverlayProps> = ({ section, onClose }) => {
             <div style={{ backgroundColor: '#FEF2F2', padding: '1.5rem', borderRadius: '12px', border: '1px solid #FECACA', textAlign: 'center', marginBottom: '1.5rem', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>
                  <h4 style={{ fontWeight: 'bold', color: '#991B1B', fontSize: '0.85rem', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Dress Code - Importante</h4>
                  <p style={{ fontSize: '1rem', color: '#B91C1C', lineHeight: 1.5, marginBottom: '0.25rem' }}>
-                   Cores Proibidas: <span style={{ fontWeight: '600' }}>Azul Claro, Branco e Bege</span>.
+                   Cores Proibidas: <span style={{ fontWeight: '600' }}>Tons de Azul, Branco e Bege</span>.
                  </p>
-                 <p style={{ fontSize: '0.75rem', color: '#DC2626' }}>Sugerimos tons pastel (rosa, lilás, verde) ou tons escuros.</p>
             </div>
 
             {FAQ_DATA.filter(f => !f.question.includes('Dress')).map((item, idx) => (

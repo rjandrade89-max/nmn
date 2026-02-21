@@ -83,6 +83,24 @@ const DashboardScreen: React.FC<DashboardProps> = ({ isAudioPlaying, onToggleAud
           </div>
       </div>
 
+      {/* Bible Verse - Moved here */}
+      <div style={{ 
+          textAlign: 'center', 
+          margin: '0 1.5rem 2rem 1.5rem', 
+          position: 'relative', 
+          zIndex: 10,
+          backgroundColor: 'rgba(255, 255, 255, 0.8)',
+          padding: '1.5rem',
+          borderRadius: '12px',
+          boxShadow: '0 4px 6px rgba(0,0,0,0.05)',
+          backdropFilter: 'blur(4px)'
+      }}>
+        <p className="font-serif" style={{ fontSize: '1rem', fontStyle: 'italic', color: 'var(--c-darkBlue)', marginBottom: '0.5rem', lineHeight: 1.6 }}>
+          “Assim, eles já não são dois, mas uma só carne. Portanto, o que Deus uniu, ninguém o separe”
+        </p>
+        <p className="font-sans uppercase" style={{ fontSize: '0.7rem', letterSpacing: '0.1em', color: 'var(--c-gold)' }}>Mateus 19:6</p>
+      </div>
+
 
       {/* --- MASONRY GRID LAYOUT --- */}
       <div className="masonry-grid" style={{ paddingBottom: '4rem', position: 'relative', zIndex: 10 }}>
