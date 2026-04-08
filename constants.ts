@@ -20,7 +20,7 @@ export const IMG_BG_BEACH = "https://cdn.visitportugal.com/sites/default/files/s
 export const IMG_LOGO = "https://lh3.googleusercontent.com/d/1hiFpX4mRddQA6UIBKR8FAxnI39S8lwvV";
 
 // Envelope Liner - Updated
-export const IMG_ENVELOPE_LINER = "https://lh3.googleusercontent.com/d/1JXSfzNiZhS7bUI_7irjIbLxScV-pmDes";
+export const IMG_ENVELOPE_LINER = "https://kaligroup.pt/wp-content/uploads/2026/04/envelope.png";
 
 // SEAL IMAGES
 export const IMG_SEAL_EXT = "https://lh3.googleusercontent.com/d/1ejqhVy20VZ8EXv-eSMXfPamtelfkVBpp";

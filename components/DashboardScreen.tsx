@@ -99,18 +99,6 @@ const DashboardScreen: React.FC<DashboardProps> = ({ isAudioPlaying, onToggleAud
           “Assim, eles já não são dois, mas uma só carne. Portanto, o que Deus uniu, ninguém o separe”
         </p>
         <p className="font-sans uppercase" style={{ fontSize: '0.7rem', letterSpacing: '0.1em', color: 'var(--c-gold)' }}>Mateus 19:6</p>
-        
-        <div style={{ marginTop: '1.5rem', paddingTop: '1.5rem', borderTop: '1px solid rgba(147, 169, 209, 0.2)' }}>
-          <p className="font-sans" style={{ fontSize: '0.85rem', color: '#555', lineHeight: 1.6, marginBottom: '0.5rem' }}>
-            Será uma grande honra partilhar este momento especial convosco.
-          </p>
-          <p className="font-sans" style={{ fontSize: '0.85rem', color: '#555', lineHeight: 1.6, marginBottom: '0.5rem' }}>
-            Agradecemos, por gentileza, que confirmem a vossa presença.
-          </p>
-          <p className="font-sans font-bold text-darkBlue" style={{ fontSize: '0.9rem', marginTop: '0.5rem' }}>
-            Esperamos por vós.
-          </p>
-        </div>
       </div>
 
 
@@ -293,8 +281,16 @@ const DashboardScreen: React.FC<DashboardProps> = ({ isAudioPlaying, onToggleAud
          <FlowerCorner src="https://drive.google.com/thumbnail?id=11riu0M7xfWAuKdk56aB43kpK8pWXg5gD&sz=w1000" style={{ width: '100%', transform: 'rotate(0deg)' }} />
       </div>
 
-      <div style={{ textAlign: 'center', marginTop: '1rem', animation: 'fadeIn 1s forwards', animationDelay: '0.7s', opacity: 0, position: 'relative', zIndex: 10 }}>
-        <p className="font-sans uppercase text-blue" style={{ fontSize: '0.65rem', letterSpacing: '0.2em', opacity: 0.6 }}>Esperamos por vocês</p>
+      <div style={{ textAlign: 'center', marginTop: '1rem', animation: 'fadeIn 1s forwards', animationDelay: '0.7s', opacity: 0, position: 'relative', zIndex: 10, padding: '0 1.5rem' }}>
+        <p className="font-sans" style={{ fontSize: '0.85rem', color: '#555', lineHeight: 1.6, marginBottom: '0.5rem' }}>
+          Será uma grande honra partilhar este momento especial convosco.
+        </p>
+        <p className="font-sans" style={{ fontSize: '0.85rem', color: '#555', lineHeight: 1.6, marginBottom: '0.5rem' }}>
+          Agradecemos, por gentileza, que confirmem a vossa presença.
+        </p>
+        <p className="font-sans uppercase text-blue font-bold" style={{ fontSize: '0.85rem', letterSpacing: '0.1em', marginTop: '1rem' }}>
+          Esperamos por vós.
+        </p>
       </div>
 
       {/* Modal Overlay for Details */}
